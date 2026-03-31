@@ -31,7 +31,7 @@ import { AppIcon } from "./AppIcon";
 import { frontierMedia } from "./frontierMedia";
 import { formatTemplate, useI18n } from "./i18n";
 
-const STORAGE_KEY = "frontier-baseops-runtime-config:v5";
+const STORAGE_KEY = "frontier-baseops-runtime-config:v6";
 
 const OFFICIAL_UTOPIA_WORLD_PACKAGE_ID =
   "0xd12a70c74c1e759445d6f209b01d43d860e97fcf2ef72ccbbd00afd828043f75";
@@ -70,7 +70,7 @@ const UTOPIA_WORLD_PROFILE: Partial<BaseOpsRuntimeConfig> = {
   storageUnitItemId: "1000000023116",
   characterObjectId: "0xc7bee895a266a87cf32d4db6c2c5567dd5c46192d2ba6b51a2bc23c139db7aa4",
   characterItemId: "2112000086",
-  corpseTypeId: "446",
+  corpseTypeId: "77810",
   corpseQuantity: "1",
   recentDigests: "",
 };
