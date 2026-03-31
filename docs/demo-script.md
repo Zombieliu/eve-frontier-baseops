@@ -4,19 +4,20 @@
 
 1. Open Frontier BaseOps and say: `This is a live operator console for EVE Frontier bases, not a generic admin dashboard.`
 2. Point to the top bar and say: `The chain network stays on Sui testnet, but the world profile is switched to the official Utopia environment.`
-3. In the Operator Manual section, load the `UTOPIA PROFILE` and say: `This aligns the console with the official Utopia world package and tenant.`
-4. If you need the repo's deterministic extension write path for rehearsal, click `LOAD BUILDER TESTNET` before touching the action panels.
-5. Point to `SMART GATE CONTROL` and say: `First I issue a route permit through a real Smart Gate extension.`
-6. Trigger `ISSUE PERMIT`.
-7. Point to `STORAGE LOGISTICS` and say: `Then I run a storage-side workflow that issues or uses permission based on an in-world asset handoff.`
-8. Trigger `TERMINAL_OVERRIDE`.
-9. Point to `OPERATIONAL LOG // PROOF TIMELINE` and say: `The important part is not the button click. The important part is that the resulting digest comes back into the same operator surface as proof.`
-10. Close with: `Frontier BaseOps turns native gate, storage, and delegate primitives into one readable operations workflow for organizations.`
+3. In the Operator Manual section, load the `UTOPIA PROFILE` and say: `This aligns the console with the official Utopia world package and the live route wired into this base.`
+4. Point to `OPERATOR CONTROLS` and say: `First I authorize the live route so the gate and storage line trust this extension.`
+5. Trigger `AUTHORISE LIVE ROUTE`.
+6. Point to `SMART GATE CONTROL` and say: `Then I issue a route permit through a real Smart Gate extension.`
+7. Trigger `ISSUE PERMIT`.
+8. Point to `STORAGE LOGISTICS` and say: `Finally I run a storage-backed workflow using an item already placed in the live SSU.`
+9. Trigger `TERMINAL_OVERRIDE`.
+10. Point to `OPERATIONAL LOG // PROOF TIMELINE` and say: `The important part is not the button click. The important part is that the resulting digest comes back into the same operator surface as proof, and can open in SuiScan or SuiVision.`
+11. Close with: `Frontier BaseOps turns native gate, storage, and delegate primitives into one readable operations workflow for organizations.`
 
 ## 90-second technical version
 
 1. `This project is anchored in Frontier-native primitives: Smart Gates, Storage Units, Character ownership, and transaction proof.`
-2. `The app can run against localnet for deterministic rehearsal, points at the official Utopia world by default, and keeps a repo testnet builder fallback for deterministic extension writes.`
+2. `The app can run against localnet for deterministic rehearsal, points at the official Utopia world by default, and now ships with a live route already wired for the current demo base.`
 3. `The control surface is intentionally split into operations, infrastructure state, and proof timeline.`
 4. `Gate Ops issues a live permit through the builder extension.`
 5. `Storage Ops runs a live storage mutation and captures the resulting state transition.`
@@ -29,11 +30,11 @@
 2. Ensure the top bar network is `testnet`
 3. Click `LOAD UTOPIA PROFILE`
 4. Confirm the runtime config points to the official Utopia world package and `tenant=utopia`
-5. If you need the repo's seeded write path, click `LOAD BUILDER TESTNET`
-6. Connect the wallet if browser-side testnet signing is available
+5. Connect the wallet if browser-side testnet signing is available
+6. Trigger `AUTHORISE LIVE ROUTE`
 7. Trigger `ISSUE PERMIT`
 8. Trigger `TERMINAL_OVERRIDE`
-9. Point to the proof timeline and the infrastructure rail
+9. Point to the proof timeline and open one digest in `SuiScan` or `SuiVision`
 
 ## Official Utopia world anchors
 
@@ -43,6 +44,15 @@
 - `EXTENSION_CONFIG_ID`: `0xb395adba3e55fabcaaa7f200d068224e01f43b59732c8a69b7f6d6c8187942e4`
 - `TENANT`: `utopia`
 - `EXTERNAL_BROWSER_HINT`: `https://uat.dapps.evefrontier.com/?tenant=utopia`
+
+## Current live Utopia route
+
+- `CHARACTER_ITEM_ID`: `2112000086`
+- `NETWORK_NODE_ITEM_ID`: `1000000023104`
+- `STORAGE_UNIT_ITEM_ID`: `1000000023116`
+- `SOURCE_GATE_ITEM_ID`: `1000000023120`
+- `DESTINATION_GATE_ITEM_ID`: `1000000023122`
+- `LIVE_STORAGE_TYPE_ID`: `77810`
 
 ## Repo builder fallback on testnet
 

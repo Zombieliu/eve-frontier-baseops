@@ -16,6 +16,7 @@ Frontier BaseOps turns native primitives like Smart Gates, Storage Units, delega
 
 - local app: `http://127.0.0.1:4178/`
 - public repo: `https://github.com/Zombieliu/eve-frontier-baseops`
+- production app: `https://eve-frontier-baseops.vercel.app`
 - recommended demo path: official `Utopia` world profile on Sui `testnet`
 
 ## Why this is a competition project
@@ -58,7 +59,23 @@ It combines Frontier-native Smart Gates, Storage Units, delegated execution, and
 - `EXTENSION_CONFIG_ID`: `0xb395adba3e55fabcaaa7f200d068224e01f43b59732c8a69b7f6d6c8187942e4`
 - `TENANT`: `utopia`
 - `EXTERNAL_BROWSER_HINT`: `https://uat.dapps.evefrontier.com/?tenant=utopia`
-- Note: live Utopia route and storage authorization are not configured yet for the current keys.
+
+### Current live Utopia demo route
+
+- `CHARACTER_ITEM_ID`: `2112000086`
+- `NETWORK_NODE_ITEM_ID`: `1000000023104`
+- `STORAGE_UNIT_ITEM_ID`: `1000000023116`
+- `SOURCE_GATE_ITEM_ID`: `1000000023120`
+- `DESTINATION_GATE_ITEM_ID`: `1000000023122`
+- `LIVE_STORAGE_TYPE_ID`: `77810` (`Platinum-Palladium Matrix`)
+
+## Public access vs live control
+
+- The site is public: any user can open `https://eve-frontier-baseops.vercel.app` and connect a testnet EVE wallet.
+- The current fully live write path is route-scoped, not globally permissionless.
+- `ISSUE PERMIT` is intended for Utopia characters that satisfy the route's configured tribe rule.
+- `AUTHORISE LIVE ROUTE` and the storage-backed `TERMINAL_OVERRIDE` flow depend on the owner-controlled Utopia structures and inventory wired into the current demo route.
+- In other words: the app is public, but the showcased end-to-end operator path currently targets one real Utopia base line rather than every arbitrary wallet and assembly.
 
 ### Repo builder validation on testnet
 
@@ -76,7 +93,7 @@ It combines Frontier-native Smart Gates, Storage Units, delegated execution, and
 
 - `Utility`: a concrete base operations tool for organizations and structure operators
 - `Technical implementation`: real extension package, real scripts, real wallet flow, real proof readback
-- `Live Frontier integration`: direct use of Smart Gates, Storage Units, Character ownership, official Utopia world targeting, and repo-validated testnet extension deployment
+- `Live Frontier integration`: direct use of Smart Gates, Storage Units, Character ownership, a live Utopia route, and digest-backed explorer links in the proof timeline
 
 ## Why this repo exists
 

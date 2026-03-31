@@ -13,7 +13,7 @@
 - It is framed as a real product surface, not only a contract demo.
 - It uses Frontier-native primitives directly: Smart Gates, Storage Units, Character ownership, and transaction proof.
 - It already demonstrates both live write and live readback paths.
-- It can be validated in controlled localnet rehearsal, aligned to the official Utopia world on Sui testnet, and backed by a repo-published testnet builder fallback.
+- It can be validated in controlled localnet rehearsal, aligned to the official Utopia world on Sui testnet, and demonstrated on a real owner-controlled Utopia route.
 
 ## What Frontier BaseOps does
 
@@ -62,7 +62,7 @@ The current MVP focuses on three connected capabilities:
 - one live access operation (`issue_jump_permit`)
 - one live storage operation (`collect_corpse_bounty`)
 - digest-backed proof timeline in the same console
-- official Utopia world profile + repo builder fallback
+- official Utopia world profile + live Utopia route
 - fallback localnet rehearsal path for deterministic demo recovery
 
 ## Demo checklist
@@ -71,11 +71,12 @@ Before submitting, capture these artifacts:
 
 - screenshot of the main console on the official Utopia world profile
 - short clip showing `LOAD UTOPIA PROFILE`
-- optional clip showing `LOAD BUILDER TESTNET` before the live write path
+- short clip showing `AUTHORISE LIVE ROUTE`
 - clip or screenshots for:
   - `ISSUE PERMIT`
   - `TERMINAL_OVERRIDE`
   - proof timeline updating
+  - one digest opened in `SuiScan` or `SuiVision`
 - publish transaction digest for the `smart_gate_extension` testnet package
 - `ExtensionConfig` object ID
 - logs for:
@@ -94,6 +95,15 @@ Before submitting, capture these artifacts:
 - `EXTENSION_CONFIG_ID`: `0xb395adba3e55fabcaaa7f200d068224e01f43b59732c8a69b7f6d6c8187942e4`
 - `TENANT`: `utopia`
 - `EXTERNAL_BROWSER_HINT`: `https://uat.dapps.evefrontier.com/?tenant=utopia`
+
+## Current live Utopia route
+
+- `CHARACTER_ITEM_ID`: `2112000086`
+- `NETWORK_NODE_ITEM_ID`: `1000000023104`
+- `STORAGE_UNIT_ITEM_ID`: `1000000023116`
+- `SOURCE_GATE_ITEM_ID`: `1000000023120`
+- `DESTINATION_GATE_ITEM_ID`: `1000000023122`
+- `LIVE_STORAGE_TYPE_ID`: `77810`
 
 ## Repo builder fallback on testnet
 

@@ -23,11 +23,11 @@ export function BaseOpsDocsPage({
     },
     {
       label: m.docs.sections.reference.labels[2],
-      value: "0xb395adba3e55fabcaaa7f200d068224e01f43b59732c8a69b7f6d6c8187942e4 · awaiting live Utopia authorisation",
+      value: "0xb395adba3e55fabcaaa7f200d068224e01f43b59732c8a69b7f6d6c8187942e4 · live route authorised and rule-configured",
     },
     {
       label: m.docs.sections.reference.labels[3],
-      value: "tenant=utopia · open with ?itemId=<live assembly> · repo fallback Gate 90185 -> Gate 90186",
+      value: "tenant=utopia · Character 2112000086 · Gate 1000000023120 -> 1000000023122 · SSU 1000000023116",
     },
   ] as const;
 
