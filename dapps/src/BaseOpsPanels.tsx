@@ -32,7 +32,7 @@ import { AppIcon } from "./AppIcon";
 import { frontierMedia } from "./frontierMedia";
 import { formatTemplate, useI18n } from "./i18n";
 
-const STORAGE_KEY = "frontier-baseops-runtime-config:v4";
+const STORAGE_KEY = "frontier-baseops-runtime-config:v5";
 
 const OFFICIAL_UTOPIA_WORLD_PACKAGE_ID =
   "0xd12a70c74c1e759445d6f209b01d43d860e97fcf2ef72ccbbd00afd828043f75";
@@ -557,6 +557,15 @@ export function BaseOpsPanels() {
   }
 
   async function handleAuthoriseLiveRoute() {
+    const authConfig: BaseOpsRuntimeConfig = {
+      ...config,
+      ...UTOPIA_WORLD_PROFILE,
+      characterObjectId:
+        config.characterObjectId || discoveredCharacter?.characterObjectId || UTOPIA_WORLD_PROFILE.characterObjectId || "",
+      characterItemId:
+        config.characterItemId || (discoveredCharacter ? String(discoveredCharacter.characterItemId) : UTOPIA_WORLD_PROFILE.characterItemId || ""),
+    };
+
     if (!currentAccount?.address) {
       setAuthState({
         pending: false,
@@ -566,7 +575,7 @@ export function BaseOpsPanels() {
       return;
     }
 
-    if (!config.worldPackageId.trim() || !config.builderPackageId.trim() || !config.extensionConfigId.trim()) {
+    if (!authConfig.worldPackageId.trim() || !authConfig.builderPackageId.trim() || !authConfig.extensionConfigId.trim()) {
       setAuthState({
         pending: false,
         message: "World package, builder package, and extension config are required before route authorization.",
@@ -582,31 +591,40 @@ export function BaseOpsPanels() {
     });
 
     try {
-      const targets = await resolveTargets(true);
-      const client = createRpcClient(activeNetwork, config.rpcUrl);
-      const worldPackageId = config.worldPackageId.trim();
+      setConfig(authConfig);
+
+      const client = createRpcClient(activeNetwork, authConfig.rpcUrl);
+      const worldPackageId = authConfig.worldPackageId.trim();
       const worldCallPackageId = resolveWorldCallPackageId(worldPackageId);
+      const sourceGateId = authConfig.sourceGateObjectId.trim();
+      const destinationGateId = authConfig.destinationGateObjectId.trim();
+      const storageUnitId = authConfig.storageUnitObjectId.trim();
+      const characterId = authConfig.characterObjectId.trim();
+
+      if (!sourceGateId || !destinationGateId || !storageUnitId || !characterId) {
+        throw new Error("Live Utopia route IDs are incomplete. Reload the page and try again.");
+      }
 
       const [sourceGateOwnerCapId, destinationGateOwnerCapId, storageUnitOwnerCapId] = await Promise.all([
         getGateOwnerCapId({
           client,
           worldPackageId,
           worldCallPackageId,
-          gateId: targets.sourceGateId,
+          gateId: sourceGateId,
           senderAddress: currentAccount.address,
         }),
         getGateOwnerCapId({
           client,
           worldPackageId,
           worldCallPackageId,
-          gateId: targets.destinationGateId,
+          gateId: destinationGateId,
           senderAddress: currentAccount.address,
         }),
         getStorageUnitOwnerCapId({
           client,
           worldPackageId,
           worldCallPackageId,
-          storageUnitId: targets.storageUnitId ?? "",
+          storageUnitId,
           senderAddress: currentAccount.address,
         }),
       ]);
@@ -614,13 +632,13 @@ export function BaseOpsPanels() {
       const transaction = buildAuthorizeLiveRouteTransaction({
         worldPackageId,
         worldCallPackageId,
-        builderPackageId: config.builderPackageId.trim(),
-        characterId: targets.characterId,
-        sourceGateId: targets.sourceGateId,
+        builderPackageId: authConfig.builderPackageId.trim(),
+        characterId,
+        sourceGateId,
         sourceGateOwnerCapId,
-        destinationGateId: targets.destinationGateId,
+        destinationGateId,
         destinationGateOwnerCapId,
-        storageUnitId: targets.storageUnitId ?? "",
+        storageUnitId,
         storageUnitOwnerCapId,
       });
 
