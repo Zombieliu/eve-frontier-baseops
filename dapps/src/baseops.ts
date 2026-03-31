@@ -541,23 +541,23 @@ export function buildCollectCorpseBountyTransaction(params: {
   destinationGateId: string;
   storageUnitId: string;
   characterId: string;
-  characterOwnerCapId: string;
+  storageUnitOwnerCapId: string;
   corpseTypeId: string;
   quantity: string;
 }): Transaction {
   const tx = new Transaction();
-  const characterType = `${params.worldPackageId}::character::Character`;
+  const storageUnitType = `${params.worldPackageId}::storage_unit::StorageUnit`;
   const worldCallPackageId = params.worldCallPackageId?.trim() || params.worldPackageId;
 
   const [ownerCap, returnReceipt] = tx.moveCall({
     target: `${worldCallPackageId}::character::borrow_owner_cap`,
-    typeArguments: [characterType],
-    arguments: [tx.object(params.characterId), tx.object(params.characterOwnerCapId)],
+    typeArguments: [storageUnitType],
+    arguments: [tx.object(params.characterId), tx.object(params.storageUnitOwnerCapId)],
   });
 
   tx.moveCall({
     target: `${params.builderPackageId}::corpse_gate_bounty::collect_corpse_bounty`,
-    typeArguments: [characterType],
+    typeArguments: [storageUnitType],
     arguments: [
       tx.object(params.extensionConfigId),
       tx.object(params.storageUnitId),
@@ -573,7 +573,7 @@ export function buildCollectCorpseBountyTransaction(params: {
 
   tx.moveCall({
     target: `${worldCallPackageId}::character::return_owner_cap`,
-    typeArguments: [characterType],
+    typeArguments: [storageUnitType],
     arguments: [tx.object(params.characterId), ownerCap, returnReceipt],
   });
 

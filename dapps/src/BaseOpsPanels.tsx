@@ -23,7 +23,6 @@ import {
   getOwnedJumpPermitId,
   getStorageUnitOwnerCapId,
   getTransactionReadback,
-  getCharacterOwnerCapId,
   resolveWorldCallPackageId,
   resolveWorldObjectId,
   type BaseOpsRuntimeConfig,
@@ -513,11 +512,11 @@ export function BaseOpsPanels() {
       const targets = await resolveTargets(true);
       const client = createRpcClient(activeNetwork, config.rpcUrl);
       const worldCallPackageId = resolveWorldCallPackageId(config.worldPackageId.trim());
-      const characterOwnerCapId = await getCharacterOwnerCapId({
+      const storageUnitOwnerCapId = await getStorageUnitOwnerCapId({
         client,
         worldPackageId: config.worldPackageId.trim(),
         worldCallPackageId,
-        characterId: targets.characterId,
+        storageUnitId: targets.storageUnitId ?? "",
         senderAddress: currentAccount.address,
       });
 
@@ -530,7 +529,7 @@ export function BaseOpsPanels() {
         destinationGateId: targets.destinationGateId,
         storageUnitId: targets.storageUnitId ?? "",
         characterId: targets.characterId,
-        characterOwnerCapId,
+        storageUnitOwnerCapId,
         corpseTypeId: config.corpseTypeId.trim(),
         quantity: config.corpseQuantity.trim() || "1",
       });
