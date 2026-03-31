@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { AppIcon } from "./AppIcon";
 import { BaseOpsPanels } from "./BaseOpsPanels";
 import { BaseOpsDocsPage } from "./BaseOpsDocsPage";
 import { localeOptions, useI18n } from "./i18n";
@@ -110,7 +111,7 @@ function App() {
             onClick={() => (isConnected ? handleDisconnect() : handleConnect())}
             type="button"
           >
-            <span className="material-symbols-outlined cmd-wallet-icon">account_balance_wallet</span>
+            <AppIcon className="cmd-wallet-icon" name="account_balance_wallet" />
             <span className="cmd-wallet-address">
               {account
                 ? abbreviateAddress(account.address)
@@ -127,10 +128,10 @@ function App() {
             </span>
           </button>
           <button className="cmd-icon-button" onClick={() => openDocs("docs-home")} type="button">
-            <span className="material-symbols-outlined">hub</span>
+            <AppIcon name="hub" />
           </button>
           <button className="cmd-icon-button" onClick={() => openConsole("operator-controls")} type="button">
-            <span className="material-symbols-outlined">settings</span>
+            <AppIcon name="settings" />
           </button>
         </div>
       </header>
@@ -150,7 +151,7 @@ function App() {
               onClick={() => openConsole(item.anchor)}
               type="button"
             >
-              <span className="material-symbols-outlined">{item.icon}</span>
+              <AppIcon name={item.icon} />
               <span>{m.app.sidebar.nav[index]}</span>
             </button>
           ))}

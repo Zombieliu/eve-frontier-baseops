@@ -26,4 +26,4 @@ Frontier BaseOps is an operator-facing control plane for EVE Frontier organizati
 
 - Native gate and storage workflows in one operator console
 - Live actions with digest-backed proof on the same screen
-- Validated localnet rehearsal path and validated testnet deployment path
+- Official Utopia world profile plus validated localnet and repo testnet builder fallback paths

@@ -16,7 +16,7 @@ Frontier BaseOps turns native primitives like Smart Gates, Storage Units, delega
 
 - local app: `http://127.0.0.1:4178/`
 - public repo: `https://github.com/Zombieliu/eve-frontier-baseops`
-- recommended demo path: validated `testnet` profile inside the app
+- recommended demo path: official `Utopia` world profile on Sui `testnet`
 
 ## Why this is a competition project
 
@@ -48,9 +48,19 @@ It combines Frontier-native Smart Gates, Storage Units, delegated execution, and
         └────────────────────────────────┘
 ```
 
-## Current validated assets
+## Current environment anchors
 
-### Testnet
+### Official Utopia world
+
+- `WORLD_PACKAGE_ID` (`published-at`): `0x07e6b810c2dff6df56ea7fbad9ff32f4d84cbee53e496267515887b712924bd1`
+- `WORLD_PACKAGE_ID` (`original-id`): `0xd12a70c74c1e759445d6f209b01d43d860e97fcf2ef72ccbbd00afd828043f75`
+- `BUILDER_PACKAGE_ID`: `0x34c884b88860af000965b80eebe74c52a6a64d79b44a70b77278d44e436aab56`
+- `EXTENSION_CONFIG_ID`: `0xb395adba3e55fabcaaa7f200d068224e01f43b59732c8a69b7f6d6c8187942e4`
+- `TENANT`: `utopia`
+- `EXTERNAL_BROWSER_HINT`: `https://uat.dapps.evefrontier.com/?tenant=utopia`
+- Note: live Utopia route and storage authorization are not configured yet for the current keys.
+
+### Repo builder validation on testnet
 
 - `WORLD_PACKAGE_ID`: `0x284dde8463dc1888671287ff330d1cc6757c08b56c19cbef3fe85e0c1447f9d2`
 - `BUILDER_PACKAGE_ID`: `0x522f00da02494c4bc6feddb4d3a964c822cfdf0fb439849f074544b59ed86882`
@@ -66,7 +76,7 @@ It combines Frontier-native Smart Gates, Storage Units, delegated execution, and
 
 - `Utility`: a concrete base operations tool for organizations and structure operators
 - `Technical implementation`: real extension package, real scripts, real wallet flow, real proof readback
-- `Live Frontier integration`: direct use of Smart Gates, Storage Units, Character ownership, and validated testnet deployment
+- `Live Frontier integration`: direct use of Smart Gates, Storage Units, Character ownership, official Utopia world targeting, and repo-validated testnet extension deployment
 
 ## Why this repo exists
 

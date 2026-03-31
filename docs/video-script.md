@@ -4,7 +4,7 @@
 
 ### Shot 1
 
-Show the main console on the default testnet profile.
+Show the main console on the default Utopia world profile.
 
 Voiceover:
 
@@ -52,19 +52,20 @@ Voiceover:
 
 ## 90-second version
 
-1. Open the console on the default testnet profile.
+1. Open the console on the default Utopia world profile.
 2. Show the Operator Manual briefly so the viewer understands the flow.
-3. Call out the current validated world and builder route.
-4. Trigger `ISSUE PERMIT`.
-5. Explain that this is a real Smart Gate access action, not mocked UI state.
-6. Trigger `TERMINAL_OVERRIDE`.
-7. Explain that the storage workflow is tied to a native in-world asset path.
-8. Move to the proof timeline and read out the digest-backed result.
-9. End on the full control surface and restate the product framing.
+3. Call out that the chain stays on Sui testnet while the runtime profile targets the official Utopia world.
+4. If you want the repo's deterministic write path, click `LOAD BUILDER TESTNET`.
+5. Trigger `ISSUE PERMIT`.
+6. Explain that this is a real Smart Gate access action, not mocked UI state.
+7. Trigger `TERMINAL_OVERRIDE`.
+8. Explain that the storage workflow is tied to a native in-world asset path.
+9. Move to the proof timeline and read out the digest-backed result.
+10. End on the full control surface and restate the product framing.
 
 ## Recording notes
 
 - Use `http://127.0.0.1:4178/`
-- Keep the app on the testnet default profile unless you explicitly want to show localnet rehearsal
+- Keep the app on the default Utopia world profile unless you explicitly want to show localnet or builder-testnet rehearsal
 - Avoid long pauses inside advanced controls
 - The proof timeline should always be in-frame before the clip ends

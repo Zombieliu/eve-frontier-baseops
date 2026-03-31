@@ -15,19 +15,19 @@ export function BaseOpsDocsPage({
   const referenceItems = [
     {
       label: m.docs.sections.reference.labels[0],
-      value: "0x284dde8463dc1888671287ff330d1cc6757c08b56c19cbef3fe85e0c1447f9d2",
+      value: "published-at 0x07e6b810c2dff6df56ea7fbad9ff32f4d84cbee53e496267515887b712924bd1 · original 0xd12a70c74c1e759445d6f209b01d43d860e97fcf2ef72ccbbd00afd828043f75",
     },
     {
       label: m.docs.sections.reference.labels[1],
-      value: "0x522f00da02494c4bc6feddb4d3a964c822cfdf0fb439849f074544b59ed86882",
+      value: "0x34c884b88860af000965b80eebe74c52a6a64d79b44a70b77278d44e436aab56 · repo fallback 0x522f00da02494c4bc6feddb4d3a964c822cfdf0fb439849f074544b59ed86882",
     },
     {
       label: m.docs.sections.reference.labels[2],
-      value: "0x25a3ca9edd24a19be1cb7874844d14ebcc982679c180316c82c12581d1445e93",
+      value: "0xb395adba3e55fabcaaa7f200d068224e01f43b59732c8a69b7f6d6c8187942e4 · awaiting live Utopia authorisation",
     },
     {
       label: m.docs.sections.reference.labels[3],
-      value: "Gate 90185 -> Gate 90186",
+      value: "tenant=utopia · open with ?itemId=<live assembly> · repo fallback Gate 90185 -> Gate 90186",
     },
   ] as const;
 

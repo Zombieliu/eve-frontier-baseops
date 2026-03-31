@@ -13,7 +13,7 @@
 - It is framed as a real product surface, not only a contract demo.
 - It uses Frontier-native primitives directly: Smart Gates, Storage Units, Character ownership, and transaction proof.
 - It already demonstrates both live write and live readback paths.
-- It can be validated in controlled localnet rehearsal and in a public testnet environment.
+- It can be validated in controlled localnet rehearsal, aligned to the official Utopia world on Sui testnet, and backed by a repo-published testnet builder fallback.
 
 ## What Frontier BaseOps does
 
@@ -40,7 +40,7 @@ The current MVP focuses on three connected capabilities:
 - `Technical implementation`
   - strong: real contract extension, real scripts, real wallet flow, real readback
 - `Live Frontier integration`
-  - strong: works with native Frontier primitives and now has a validated testnet path
+  - strong: works with native Frontier primitives, targets the official Utopia world, and retains a repo-validated testnet builder path
 - `Creativity`
   - medium-high: the novelty comes from combining official primitives into a coherent operations product
 
@@ -62,15 +62,16 @@ The current MVP focuses on three connected capabilities:
 - one live access operation (`issue_jump_permit`)
 - one live storage operation (`collect_corpse_bounty`)
 - digest-backed proof timeline in the same console
-- validated testnet world + builder flow
+- official Utopia world profile + repo builder fallback
 - fallback localnet rehearsal path for deterministic demo recovery
 
 ## Demo checklist
 
 Before submitting, capture these artifacts:
 
-- screenshot of the main console on the validated testnet profile
-- short clip showing `LOAD TESTNET PROFILE`
+- screenshot of the main console on the official Utopia world profile
+- short clip showing `LOAD UTOPIA PROFILE`
+- optional clip showing `LOAD BUILDER TESTNET` before the live write path
 - clip or screenshots for:
   - `ISSUE PERMIT`
   - `TERMINAL_OVERRIDE`
@@ -85,15 +86,20 @@ Before submitting, capture these artifacts:
   - `pnpm collect-corpse-bounty`
   - `pnpm jump-with-permit`
 
-## Current validated testnet assets
+## Official Utopia world anchors
+
+- `WORLD_PACKAGE_ID` (`published-at`): `0x07e6b810c2dff6df56ea7fbad9ff32f4d84cbee53e496267515887b712924bd1`
+- `WORLD_PACKAGE_ID` (`original-id`): `0xd12a70c74c1e759445d6f209b01d43d860e97fcf2ef72ccbbd00afd828043f75`
+- `BUILDER_PACKAGE_ID`: `0x34c884b88860af000965b80eebe74c52a6a64d79b44a70b77278d44e436aab56`
+- `EXTENSION_CONFIG_ID`: `0xb395adba3e55fabcaaa7f200d068224e01f43b59732c8a69b7f6d6c8187942e4`
+- `TENANT`: `utopia`
+- `EXTERNAL_BROWSER_HINT`: `https://uat.dapps.evefrontier.com/?tenant=utopia`
+
+## Repo builder fallback on testnet
 
 - `WORLD_PACKAGE_ID`: `0x284dde8463dc1888671287ff330d1cc6757c08b56c19cbef3fe85e0c1447f9d2`
 - `BUILDER_PACKAGE_ID`: `0x522f00da02494c4bc6feddb4d3a964c822cfdf0fb439849f074544b59ed86882`
 - `EXTENSION_CONFIG_ID`: `0x25a3ca9edd24a19be1cb7874844d14ebcc982679c180316c82c12581d1445e93`
-- Source gate object: `0xc5c4135678039b15960dc52136732f50a84458f6457ecc5b803ccdb9fcbd5eda`
-- Destination gate object: `0x5b497d6b228311de0f86e48065d10c2fcc3b99a299bb389224d3202409b92a30`
-- Storage unit object: `0xf975428edf3dd09364afb609179656cde5a3ad5aa17c72268951839573fd7eb0`
-- Character object: `0xd7cf4a82fdb2671ebe20ec3d390a8e33b77daaa498272f4038939347f88b28c8`
 
 ## Repo runbook
 
@@ -107,7 +113,7 @@ pnpm run type-check:dapp
 pnpm run build
 ```
 
-For the live testnet contract flow:
+For the repo-published testnet contract flow:
 
 ```bash
 pnpm configure-rules
@@ -152,6 +158,6 @@ This project was deployed into a live Smart Assembly structure on Stillness for 
 
 ## Remaining polish items
 
-1. Confirm browser-side wallet compatibility on testnet and, if possible, Stillness.
-2. Record one clean 45-second judged demo on the validated testnet profile.
+1. Confirm browser-side wallet compatibility on official Utopia and, if possible, Stillness.
+2. Record one clean 45-second judged demo on the official Utopia world profile.
 3. Keep the project framing centered on `Frontier BaseOps`; permit remains a sub-feature, not the project definition.

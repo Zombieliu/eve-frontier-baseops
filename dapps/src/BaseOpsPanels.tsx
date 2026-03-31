@@ -24,10 +24,14 @@ import {
   resolveWorldObjectId,
   type BaseOpsRuntimeConfig,
 } from "./baseops";
+import { AppIcon } from "./AppIcon";
 import { frontierMedia } from "./frontierMedia";
 import { formatTemplate, useI18n } from "./i18n";
 
-const STORAGE_KEY = "frontier-baseops-runtime-config:v2";
+const STORAGE_KEY = "frontier-baseops-runtime-config:v4";
+
+const OFFICIAL_UTOPIA_WORLD_PACKAGE_ID =
+  "0x07e6b810c2dff6df56ea7fbad9ff32f4d84cbee53e496267515887b712924bd1";
 
 const LOCALNET_DEMO_PROFILE: Partial<BaseOpsRuntimeConfig> = {
   tenant: "dev",
@@ -49,7 +53,26 @@ const LOCALNET_DEMO_PROFILE: Partial<BaseOpsRuntimeConfig> = {
     "Gw4RKyzHw5F3K3bShnk6u1H89ApKiyjpTQw3rcvSB68a,9HQGjf8Gxd1KVS3hfjXrZaJQ4PiGgCuvGsTquUS9P4kh,327ubsAVYEFJh8TKi4V1ZNYs59wfz7gEXS42NydTFxhC",
 };
 
-const TESTNET_DEMO_PROFILE: Partial<BaseOpsRuntimeConfig> = {
+const UTOPIA_WORLD_PROFILE: Partial<BaseOpsRuntimeConfig> = {
+  tenant: "utopia",
+  rpcUrl: "https://fullnode.testnet.sui.io:443",
+  worldPackageId: OFFICIAL_UTOPIA_WORLD_PACKAGE_ID,
+  builderPackageId: "0x34c884b88860af000965b80eebe74c52a6a64d79b44a70b77278d44e436aab56",
+  extensionConfigId: "0xb395adba3e55fabcaaa7f200d068224e01f43b59732c8a69b7f6d6c8187942e4",
+  sourceGateObjectId: "",
+  sourceGateItemId: "",
+  destinationGateObjectId: "",
+  destinationGateItemId: "",
+  storageUnitObjectId: "",
+  storageUnitItemId: "",
+  characterObjectId: "",
+  characterItemId: "",
+  corpseTypeId: "446",
+  corpseQuantity: "1",
+  recentDigests: "",
+};
+
+const TESTNET_BUILDER_PROFILE: Partial<BaseOpsRuntimeConfig> = {
   tenant: "dev",
   rpcUrl: "https://fullnode.testnet.sui.io:443",
   worldPackageId: "0x284dde8463dc1888671287ff330d1cc6757c08b56c19cbef3fe85e0c1447f9d2",
@@ -81,7 +104,7 @@ type PermitState = {
 };
 
 function loadStoredConfig(): BaseOpsRuntimeConfig {
-  const defaults = { ...getDefaultRuntimeConfig(), ...TESTNET_DEMO_PROFILE };
+  const defaults = { ...getDefaultRuntimeConfig(), ...UTOPIA_WORLD_PROFILE };
   const raw = window.localStorage.getItem(STORAGE_KEY);
 
   if (!raw) {
@@ -637,7 +660,7 @@ export function BaseOpsPanels() {
           />
           <div className="cmd-hero-stage-scrim" />
           <div className="cmd-hero-stage-camera">
-            <span className="material-symbols-outlined">videocam</span>
+            <AppIcon name="videocam" />
           </div>
           <div className="cmd-hero-stage-readout">
             <div className="cmd-hero-stage-lines">
@@ -672,11 +695,14 @@ export function BaseOpsPanels() {
         </div>
 
         <div className="cmd-manual-actions">
+          <button className="cmd-primary-cta" onClick={() => loadDemoProfile(UTOPIA_WORLD_PROFILE)} type="button">
+            {m.console.manual.actions.utopia}
+          </button>
+          <button className="cmd-secondary-cta" onClick={() => loadDemoProfile(TESTNET_BUILDER_PROFILE)} type="button">
+            {m.console.manual.actions.builderTestnet}
+          </button>
           <button className="cmd-secondary-cta" onClick={() => loadDemoProfile(LOCALNET_DEMO_PROFILE)} type="button">
             {m.console.manual.actions.localnet}
-          </button>
-          <button className="cmd-primary-cta" onClick={() => loadDemoProfile(TESTNET_DEMO_PROFILE)} type="button">
-            {m.console.manual.actions.testnet}
           </button>
         </div>
 
@@ -711,14 +737,14 @@ export function BaseOpsPanels() {
               <div className="cmd-summary-label">{m.console.summary.gateStatus}</div>
               <div className="cmd-summary-row">
                 <div className="cmd-summary-value">{accessReady ? m.console.summary.operational : m.console.summary.unconfigured}</div>
-                <span className="material-symbols-outlined cmd-summary-icon cmd-summary-icon-success">check_circle</span>
+                <AppIcon className="cmd-summary-icon cmd-summary-icon-success" name="check_circle" />
               </div>
             </article>
             <article className="cmd-summary-card">
               <div className="cmd-summary-label">{m.console.summary.activePermits}</div>
               <div className="cmd-summary-row">
                 <div className="cmd-summary-value">{String(activePermitCount).padStart(2, "0")}</div>
-                <span className="material-symbols-outlined cmd-summary-icon">badge</span>
+                <AppIcon className="cmd-summary-icon" name="badge" />
               </div>
             </article>
             <article className="cmd-summary-card">
@@ -732,7 +758,7 @@ export function BaseOpsPanels() {
               <div className="cmd-summary-label">{m.console.summary.securityAlerts}</div>
               <div className="cmd-summary-row">
                 <div className="cmd-summary-value cmd-summary-value-warning">{String(securityAlertCount).padStart(2, "0")}</div>
-                <span className="material-symbols-outlined cmd-summary-icon cmd-summary-icon-warning">warning</span>
+                <AppIcon className="cmd-summary-icon cmd-summary-icon-warning" name="warning" />
               </div>
             </article>
           </div>
@@ -753,7 +779,7 @@ export function BaseOpsPanels() {
                   <strong>{effectiveDestinationGateItemId || effectiveDestinationGateObjectId || m.console.common.unsetRoute}</strong>
                 </div>
                 <button className="cmd-square-button" onClick={() => void refetch()} type="button">
-                  <span className="material-symbols-outlined">sync_alt</span>
+                  <AppIcon name="sync_alt" />
                 </button>
               </div>
 
@@ -839,9 +865,10 @@ export function BaseOpsPanels() {
                   className={entry.status === "error" ? "cmd-log-item cmd-log-item-error" : "cmd-log-item"}
                   key={entry.id}
                 >
-                  <span className="material-symbols-outlined cmd-log-icon">
-                    {entry.status === "error" ? "security" : index === 0 ? "verified_user" : "toll"}
-                  </span>
+                  <AppIcon
+                    className="cmd-log-icon"
+                    name={entry.status === "error" ? "security" : index === 0 ? "verified_user" : "toll"}
+                  />
                   <div className="cmd-log-content">
                     <div className="cmd-log-title-row">
                       <span className={entry.status === "error" ? "cmd-log-title cmd-log-title-error" : "cmd-log-title"}>
@@ -852,7 +879,7 @@ export function BaseOpsPanels() {
                     <p>{entry.detail}</p>
                     <code>{entry.digest}</code>
                   </div>
-                  <span className="material-symbols-outlined cmd-log-open">open_in_new</span>
+                  <AppIcon className="cmd-log-open" name="open_in_new" />
                 </article>
               ))}
             </div>
@@ -894,7 +921,7 @@ export function BaseOpsPanels() {
             <div className="cmd-delegate-entry">
               <div className="cmd-delegate-entry-header">
                 <span>{m.console.delegate.autoWarp}</span>
-                <span className="material-symbols-outlined">play_arrow</span>
+                <AppIcon name="play_arrow" />
               </div>
               <p>{m.console.delegate.condition}</p>
             </div>

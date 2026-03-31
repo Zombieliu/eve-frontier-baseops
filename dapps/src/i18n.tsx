@@ -122,7 +122,7 @@ export const messages = {
           title: "Fast path for the judged flow",
           steps: [
             "Choose testnet in the top bar and connect the operator wallet.",
-            "Load the validated testnet profile from the Operator Manual block.",
+            "Load the official Utopia world profile from the Operator Manual block.",
             "Issue a permit from SMART GATE CONTROL.",
             "Run the storage workflow from STORAGE LOGISTICS.",
             "Point to the proof timeline to show the digest-backed result.",
@@ -130,7 +130,7 @@ export const messages = {
         },
         reference: {
           kicker: "Reference",
-          title: "Current validated testnet assets",
+          title: "Official Utopia world anchors",
           labels: [
             "World package",
             "Builder package",
@@ -180,8 +180,9 @@ export const messages = {
           },
         ],
         actions: {
+          utopia: "LOAD UTOPIA PROFILE",
+          builderTestnet: "LOAD BUILDER TESTNET",
           localnet: "LOAD LOCALNET PROFILE",
-          testnet: "LOAD TESTNET PROFILE",
         },
         steps: [
           "Choose {network} in the top bar and connect the operator wallet.",
@@ -282,7 +283,7 @@ export const messages = {
           quantity: "Quantity",
         },
         placeholders: {
-          tenant: "dev or testevenet",
+          tenant: "utopia / stillness / dev",
           rpcUrl: "https://fullnode.testnet.sui.io:443",
           objectId: "0x...",
           sourceItem: "e.g. 12345",
@@ -366,7 +367,7 @@ export const messages = {
           title: "评委演示的最快路径",
           steps: [
             "在顶部切到 testnet 并连接操作钱包。",
-            "在 Operator Manual 区块加载已验证的 testnet profile。",
+            "在 Operator Manual 区块加载官方 Utopia world profile。",
             "在 SMART GATE CONTROL 中发起 permit。",
             "在 STORAGE LOGISTICS 中运行 storage workflow。",
             "把证明时间线指给评委看，说明 digest 已回流。",
@@ -374,7 +375,7 @@ export const messages = {
         },
         reference: {
           kicker: "参考信息",
-          title: "当前已验证的 testnet 资产",
+          title: "官方 Utopia world 锚点",
           labels: ["World 包", "Builder 包", "扩展配置", "路线"],
         },
       },
@@ -413,7 +414,11 @@ export const messages = {
             body: "真正的 demo 终点是 operational log。只有 digest-backed 的 proof 回到同屏，这条链路才算完成。",
           },
         ],
-        actions: { localnet: "加载 LOCALNET 配置", testnet: "加载 TESTNET 配置" },
+        actions: {
+          utopia: "加载 UTOPIA WORLD 配置",
+          builderTestnet: "加载 BUILDER TESTNET 配置",
+          localnet: "加载 LOCALNET 配置",
+        },
         steps: [
           "在顶部选择 {network}，并连接操作钱包。",
           "确认 source gate、destination gate、storage 与 character 已解析。",
@@ -510,7 +515,7 @@ export const messages = {
           quantity: "数量",
         },
         placeholders: {
-          tenant: "dev 或 testevenet",
+          tenant: "utopia / stillness / dev",
           rpcUrl: "https://fullnode.testnet.sui.io:443",
           objectId: "0x...",
           sourceItem: "例如 12345",
@@ -592,7 +597,7 @@ export const messages = {
           title: "評審演示的最快路徑",
           steps: [
             "在頂部切到 testnet 並連接操作錢包。",
-            "在 Operator Manual 區塊載入已驗證的 testnet profile。",
+            "在 Operator Manual 區塊載入官方 Utopia world profile。",
             "在 SMART GATE CONTROL 中發起 permit。",
             "在 STORAGE LOGISTICS 中執行 storage workflow。",
             "把證明時間線指給評審看，說明 digest 已回流。",
@@ -600,7 +605,7 @@ export const messages = {
         },
         reference: {
           kicker: "參考資訊",
-          title: "目前已驗證的 testnet 資產",
+          title: "官方 Utopia world 錨點",
           labels: ["World 套件", "Builder 套件", "擴展設定", "路線"],
         },
       },
@@ -639,7 +644,11 @@ export const messages = {
             body: "真正的 demo 終點是 operational log。只有 digest-backed 的 proof 回到同畫面，這條鏈路才算完成。",
           },
         ],
-        actions: { localnet: "載入 LOCALNET 設定", testnet: "載入 TESTNET 設定" },
+        actions: {
+          utopia: "載入 UTOPIA WORLD 設定",
+          builderTestnet: "載入 BUILDER TESTNET 設定",
+          localnet: "載入 LOCALNET 設定",
+        },
         steps: [
           "在頂部選擇 {network}，並連接操作錢包。",
           "確認 source gate、destination gate、storage 與 character 已解析。",
@@ -736,7 +745,7 @@ export const messages = {
           quantity: "數量",
         },
         placeholders: {
-          tenant: "dev 或 testevenet",
+          tenant: "utopia / stillness / dev",
           rpcUrl: "https://fullnode.testnet.sui.io:443",
           objectId: "0x...",
           sourceItem: "例如 12345",
@@ -818,7 +827,7 @@ export const messages = {
           title: "심사용 데모의 가장 빠른 경로",
           steps: [
             "상단에서 testnet을 선택하고 운영자 지갑을 연결합니다.",
-            "Operator Manual 블록에서 검증된 testnet profile을 불러옵니다.",
+            "Operator Manual 블록에서 공식 Utopia world profile을 불러옵니다.",
             "SMART GATE CONTROL에서 permit을 발급합니다.",
             "STORAGE LOGISTICS에서 storage workflow를 실행합니다.",
             "proof timeline을 가리키며 digest 기반 결과를 보여줍니다.",
@@ -826,7 +835,7 @@ export const messages = {
         },
         reference: {
           kicker: "참고",
-          title: "현재 검증된 testnet 자산",
+          title: "공식 Utopia world 기준값",
           labels: ["World 패키지", "Builder 패키지", "확장 설정", "경로"],
         },
       },
@@ -865,7 +874,11 @@ export const messages = {
             body: "데모의 진짜 종착점은 operational log입니다. digest 기반 증명이 같은 화면으로 돌아와야 루프가 완성됩니다.",
           },
         ],
-        actions: { localnet: "LOCALNET 프로필 불러오기", testnet: "TESTNET 프로필 불러오기" },
+        actions: {
+          utopia: "UTOPIA PROFILE 불러오기",
+          builderTestnet: "BUILDER TESTNET 불러오기",
+          localnet: "LOCALNET 프로필 불러오기",
+        },
         steps: [
           "상단에서 {network}을 선택하고 운영자 지갑을 연결합니다.",
           "source gate, destination gate, storage, character가 모두 해석되었는지 확인합니다.",
@@ -962,7 +975,7 @@ export const messages = {
           quantity: "Quantity",
         },
         placeholders: {
-          tenant: "dev 또는 testevenet",
+          tenant: "utopia / stillness / dev",
           rpcUrl: "https://fullnode.testnet.sui.io:443",
           objectId: "0x...",
           sourceItem: "예: 12345",
@@ -1044,7 +1057,7 @@ export const messages = {
           title: "審査用デモの最短ルート",
           steps: [
             "上部で testnet を選択し、運用ウォレットを接続します。",
-            "Operator Manual ブロックで検証済み testnet profile を読み込みます。",
+            "Operator Manual ブロックで公式 Utopia world profile を読み込みます。",
             "SMART GATE CONTROL で permit を発行します。",
             "STORAGE LOGISTICS で storage workflow を実行します。",
             "proof timeline を示して digest ベースの結果を説明します。",
@@ -1052,7 +1065,7 @@ export const messages = {
         },
         reference: {
           kicker: "参照",
-          title: "現在検証済みの testnet 資産",
+          title: "公式 Utopia world アンカー",
           labels: ["World パッケージ", "Builder パッケージ", "拡張設定", "ルート"],
         },
       },
@@ -1091,7 +1104,11 @@ export const messages = {
             body: "デモの本当の終点は operational log です。digest ベースの proof が同じ画面に戻ってきて初めてループが完了します。",
           },
         ],
-        actions: { localnet: "LOCALNET プロファイルを読み込む", testnet: "TESTNET プロファイルを読み込む" },
+        actions: {
+          utopia: "UTOPIA PROFILE を読み込む",
+          builderTestnet: "BUILDER TESTNET を読み込む",
+          localnet: "LOCALNET プロファイルを読み込む",
+        },
         steps: [
           "上部で {network} を選び、運用ウォレットを接続します。",
           "source gate、destination gate、storage、character が解決されていることを確認します。",
@@ -1188,7 +1205,7 @@ export const messages = {
           quantity: "Quantity",
         },
         placeholders: {
-          tenant: "dev または testevenet",
+          tenant: "utopia / stillness / dev",
           rpcUrl: "https://fullnode.testnet.sui.io:443",
           objectId: "0x...",
           sourceItem: "例 12345",

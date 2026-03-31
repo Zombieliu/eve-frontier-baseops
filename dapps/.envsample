@@ -3,7 +3,8 @@
 VITE_OBJECT_ID=
 
 # World package id
-VITE_EVE_WORLD_PACKAGE_ID="0xf115375112eab1dcc1bb4af81a37d47ca7e95c2eb990cefa1f12f82d689e9543"
+# Default to the official Utopia world package on Sui testnet.
+VITE_EVE_WORLD_PACKAGE_ID="0x07e6b810c2dff6df56ea7fbad9ff32f4d84cbee53e496267515887b712924bd1"
 
 VITE_SUI_GRAPHQL_ENDPOINT="https://graphql.testnet.sui.io/graphql"
 
@@ -13,9 +14,13 @@ VITE_BASEOPS_LOCALNET_RPC_URL="http://127.0.0.1:9000"
 
 # Optional BaseOps runtime defaults. These can also be edited live in the UI and are persisted in localStorage.
 VITE_BASEOPS_DEFAULT_NETWORK="testnet"
-VITE_BASEOPS_TENANT="dev"
-VITE_BASEOPS_BUILDER_PACKAGE_ID=""
-VITE_BASEOPS_EXTENSION_CONFIG_ID=""
+VITE_BASEOPS_TENANT="utopia"
+# For live writes on the official Utopia world, publish your extension against the
+# Utopia world package and paste the resulting IDs below. The values here are the
+# latest package published from this repo against official Utopia; route-specific
+# authorization and object IDs still need to be supplied from a live Utopia setup.
+VITE_BASEOPS_BUILDER_PACKAGE_ID="0x34c884b88860af000965b80eebe74c52a6a64d79b44a70b77278d44e436aab56"
+VITE_BASEOPS_EXTENSION_CONFIG_ID="0xb395adba3e55fabcaaa7f200d068224e01f43b59732c8a69b7f6d6c8187942e4"
 VITE_BASEOPS_SOURCE_GATE_OBJECT_ID=""
 VITE_BASEOPS_SOURCE_GATE_ITEM_ID=""
 VITE_BASEOPS_DESTINATION_GATE_OBJECT_ID=""
