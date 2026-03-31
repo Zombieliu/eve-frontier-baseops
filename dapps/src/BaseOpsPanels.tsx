@@ -106,6 +106,11 @@ type PermitState = {
   lastDigest: string;
 };
 
+type ExplorerLink = {
+  href: string;
+  label: string;
+};
+
 function loadStoredConfig(): BaseOpsRuntimeConfig {
   const defaults = { ...getDefaultRuntimeConfig(), ...UTOPIA_WORLD_PROFILE };
   const raw = window.localStorage.getItem(STORAGE_KEY);
@@ -134,6 +139,35 @@ function resolveAssemblyHints(assembly: ReturnType<typeof useSmartObject>["assem
     storageUnitObjectId: storageAssembly?.id ?? "",
     storageUnitItemId: storageAssembly ? String(storageAssembly.item_id) : "",
   };
+}
+
+function getExplorerLinks(digest: string, network: string): ExplorerLink[] {
+  if (!digest || digest === "NO_DIGEST_YET") {
+    return [];
+  }
+
+  if (network === "testnet") {
+    return [
+      { href: `https://suiscan.xyz/testnet/tx/${digest}`, label: "SuiScan" },
+      { href: `https://testnet.suivision.xyz/txblock/${digest}`, label: "SuiVision" },
+    ];
+  }
+
+  if (network === "mainnet") {
+    return [
+      { href: `https://suiscan.xyz/mainnet/tx/${digest}`, label: "SuiScan" },
+      { href: `https://suivision.xyz/txblock/${digest}`, label: "SuiVision" },
+    ];
+  }
+
+  if (network === "devnet") {
+    return [
+      { href: `https://suiscan.xyz/devnet/tx/${digest}`, label: "SuiScan" },
+      { href: `https://suivision.xyz/txblock/${digest}?network=devnet`, label: "SuiVision" },
+    ];
+  }
+
+  return [];
 }
 
 function ConfigField({
@@ -978,28 +1012,54 @@ export function BaseOpsPanels() {
                   kind: "access" as const,
                   digest: m.console.common.noDigest,
                 },
-              ]).map((entry, index) => (
-                <article
-                  className={entry.status === "error" ? "cmd-log-item cmd-log-item-error" : "cmd-log-item"}
-                  key={entry.id}
-                >
-                  <AppIcon
-                    className="cmd-log-icon"
-                    name={entry.status === "error" ? "security" : index === 0 ? "verified_user" : "toll"}
-                  />
-                  <div className="cmd-log-content">
-                    <div className="cmd-log-title-row">
-                      <span className={entry.status === "error" ? "cmd-log-title cmd-log-title-error" : "cmd-log-title"}>
-                        {entry.label.toUpperCase().replace(/\s+/g, "_")}
-                      </span>
-                      <span className="cmd-log-time">{entry.time}</span>
+              ]).map((entry, index) => {
+                const explorerLinks = getExplorerLinks(entry.digest, activeNetwork);
+                const primaryExplorer = explorerLinks[0];
+
+                return (
+                  <article
+                    className={entry.status === "error" ? "cmd-log-item cmd-log-item-error" : "cmd-log-item"}
+                    key={entry.id}
+                  >
+                    <AppIcon
+                      className="cmd-log-icon"
+                      name={entry.status === "error" ? "security" : index === 0 ? "verified_user" : "toll"}
+                    />
+                    <div className="cmd-log-content">
+                      <div className="cmd-log-title-row">
+                        <span className={entry.status === "error" ? "cmd-log-title cmd-log-title-error" : "cmd-log-title"}>
+                          {entry.label.toUpperCase().replace(/\s+/g, "_")}
+                        </span>
+                        <span className="cmd-log-time">{entry.time}</span>
+                      </div>
+                      <p>{entry.detail}</p>
+                      <code>{entry.digest}</code>
+                      {explorerLinks.length > 0 ? (
+                        <div className="cmd-log-explorer-links">
+                          {explorerLinks.map((link) => (
+                            <a
+                              className="cmd-log-explorer-link"
+                              href={link.href}
+                              key={link.label}
+                              rel="noreferrer"
+                              target="_blank"
+                            >
+                              {link.label}
+                            </a>
+                          ))}
+                        </div>
+                      ) : null}
                     </div>
-                    <p>{entry.detail}</p>
-                    <code>{entry.digest}</code>
-                  </div>
-                  <AppIcon className="cmd-log-open" name="open_in_new" />
-                </article>
-              ))}
+                    {primaryExplorer ? (
+                      <a className="cmd-log-open-link" href={primaryExplorer.href} rel="noreferrer" target="_blank">
+                        <AppIcon className="cmd-log-open" name="open_in_new" />
+                      </a>
+                    ) : (
+                      <AppIcon className="cmd-log-open" name="open_in_new" />
+                    )}
+                  </article>
+                );
+              })}
             </div>
           </article>
         </section>

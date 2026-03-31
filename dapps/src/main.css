@@ -2319,14 +2319,39 @@ code {
   margin-top: 8px;
 }
 
+.cmd-log-explorer-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.cmd-log-explorer-link,
+.cmd-log-open-link {
+  color: #ffb688;
+  text-decoration: none;
+}
+
+.cmd-log-explorer-link {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .cmd-log-open {
   color: rgba(229, 226, 227, 0.1);
   opacity: 0;
   transition: opacity 180ms ease;
 }
 
-.cmd-log-item:hover .cmd-log-open {
+.cmd-log-item:hover .cmd-log-open,
+.cmd-log-item:hover .cmd-log-open-link {
   opacity: 1;
+}
+
+.cmd-log-open-link {
+  opacity: 0;
+  transition: opacity 180ms ease;
 }
 
 .cmd-infra-card h3 {
