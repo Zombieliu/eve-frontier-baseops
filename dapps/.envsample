@@ -1,0 +1,29 @@
+# Change the following to the preferred smart assembly
+# If defined, this will take priority over values passed via URL query param
+VITE_OBJECT_ID=
+
+# World package id
+VITE_EVE_WORLD_PACKAGE_ID="0xf115375112eab1dcc1bb4af81a37d47ca7e95c2eb990cefa1f12f82d689e9543"
+
+VITE_SUI_GRAPHQL_ENDPOINT="https://graphql.testnet.sui.io/graphql"
+
+# Optional JSON-RPC endpoint for BaseOps transaction readback and dev-inspect helpers.
+VITE_SUI_RPC_URL="https://fullnode.testnet.sui.io:443"
+VITE_BASEOPS_LOCALNET_RPC_URL="http://127.0.0.1:9000"
+
+# Optional BaseOps runtime defaults. These can also be edited live in the UI and are persisted in localStorage.
+VITE_BASEOPS_DEFAULT_NETWORK="testnet"
+VITE_BASEOPS_TENANT="dev"
+VITE_BASEOPS_BUILDER_PACKAGE_ID=""
+VITE_BASEOPS_EXTENSION_CONFIG_ID=""
+VITE_BASEOPS_SOURCE_GATE_OBJECT_ID=""
+VITE_BASEOPS_SOURCE_GATE_ITEM_ID=""
+VITE_BASEOPS_DESTINATION_GATE_OBJECT_ID=""
+VITE_BASEOPS_DESTINATION_GATE_ITEM_ID=""
+VITE_BASEOPS_STORAGE_UNIT_OBJECT_ID=""
+VITE_BASEOPS_STORAGE_UNIT_ITEM_ID=""
+VITE_BASEOPS_CHARACTER_OBJECT_ID=""
+VITE_BASEOPS_CHARACTER_ITEM_ID=""
+VITE_BASEOPS_CORPSE_TYPE_ID=""
+VITE_BASEOPS_CORPSE_QUANTITY="1"
+VITE_BASEOPS_RECENT_DIGESTS=""

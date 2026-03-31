@@ -1,0 +1,112 @@
+{
+  "source": "https://evefrontier.com/en/media",
+  "downloadedAt": "2026-03-14T14:34:36.223Z",
+  "assets": [
+    {
+      "name": "eve-frontier-launch-art-horizontal.png",
+      "url": "https://artifacts.evefrontier.com/screenshots/EVE_Frontier-KeyArt-2024-horizontal.png",
+      "title": "Eve Frontier Launch Art",
+      "subtitle": "Horizontal Key Art",
+      "bytes": 8218020
+    },
+    {
+      "name": "eve-frontier-logo-black.png",
+      "url": "https://artifacts.evefrontier.com/logos/EVE-Frontier-Logo-Transparent-Black.png",
+      "title": "Eve Frontier Logo Black",
+      "subtitle": "Black on Transparent",
+      "bytes": 28295
+    },
+    {
+      "name": "eve-frontier-logo-white.png",
+      "url": "https://artifacts.evefrontier.com/logos/EVE-Frontier-Logo-Transparent-White.png",
+      "title": "Eve Frontier Logo White",
+      "subtitle": "White on Transparent",
+      "bytes": 26024
+    },
+    {
+      "name": "eve-frontier-logo-color.png",
+      "url": "https://artifacts.evefrontier.com/artwork/EVE_Frontier_Logo_Color.png",
+      "title": "Eve Frontier Logo Color",
+      "subtitle": "Hero Logo",
+      "bytes": 527076
+    },
+    {
+      "name": "omo.png",
+      "url": "https://artifacts.evefrontier.com/artwork/Omo.png",
+      "title": "Omo",
+      "subtitle": "4K UHD Wallpaper",
+      "bytes": 3859712
+    },
+    {
+      "name": "exclave-frigate.png",
+      "url": "https://artifacts.evefrontier.com/artwork/Exclave_Frigate.png",
+      "title": "Exclave Frigate",
+      "subtitle": "Wallpaper",
+      "bytes": 3919180
+    },
+    {
+      "name": "mining-frigate.png",
+      "url": "https://artifacts.evefrontier.com/artwork/Mining_Frigate.png",
+      "title": "Mining Frigate",
+      "subtitle": "4K UHD Wallpaper",
+      "bytes": 6061251
+    },
+    {
+      "name": "asteroid.png",
+      "url": "https://artifacts.evefrontier.com/artwork/Asteroid.png",
+      "title": "Asteroid",
+      "subtitle": "4K UHD Wallpaper",
+      "bytes": 12240551
+    },
+    {
+      "name": "rider.png",
+      "url": "https://artifacts.evefrontier.com/artwork/Rider.png",
+      "title": "Rider",
+      "subtitle": "4K UHD Wallpaper",
+      "bytes": 13750491
+    },
+    {
+      "name": "fabricator.png",
+      "url": "https://artifacts.evefrontier.com/artwork/Fabricator.png",
+      "title": "Fabricator",
+      "subtitle": "4K Wallpaper",
+      "bytes": 20290538
+    },
+    {
+      "name": "asteroid-debris-field.jpg",
+      "url": "https://artifacts.evefrontier.com/artwork/Asteroid_Debris_field.jpg",
+      "title": "Asteroid Debris Field",
+      "subtitle": "4K UHD Wallpaper",
+      "bytes": 14537680
+    },
+    {
+      "name": "synod-battleship.png",
+      "url": "https://artifacts.evefrontier.com/artwork/Synod_Battleship.png",
+      "title": "Synod Battleship",
+      "subtitle": "4K UHD Wallpaper",
+      "bytes": 5376993
+    },
+    {
+      "name": "rebus.png",
+      "url": "https://artifacts.evefrontier.com/artwork/Rebus.png",
+      "title": "Chumaq",
+      "subtitle": "4K UHD Wallpaper",
+      "note": "Official media page currently points the Chumaq download button to Rebus.png.",
+      "bytes": 5756787
+    },
+    {
+      "name": "frontier-reveal-cinematic.mp4",
+      "url": "https://artifacts.evefrontier.com/videos/Frontier_Reveal_Cinematic.mp4",
+      "title": "Eve Frontier Reveal Cinematic",
+      "subtitle": "Enter the Frontier",
+      "bytes": 919469082
+    },
+    {
+      "name": "page-header-texture.webp",
+      "url": "https://evefrontier.com/images/header_texture.webp",
+      "title": "Page header texture",
+      "subtitle": "Site texture asset",
+      "bytes": 417708
+    }
+  ]
+}

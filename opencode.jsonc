@@ -1,0 +1,30 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  // Repo-local rules live in AGENTS.md. Workspace-wide rules live in ../../_shared/.
+  "share": "manual",
+  "instructions": ["AGENTS.md", "../../_shared/workspace-context.md"],
+  "watcher": {
+    "ignore": [
+      "**/.git/**",
+      "**/node_modules/**",
+      "**/.next*/**",
+      "**/.turbo/**",
+      "**/.cache/**",
+      "**/.content-collections/**",
+      "**/.open-next/**",
+      "**/.playwright-cli/**",
+      "**/.pnpm-store/**",
+      "**/.source/**",
+      "**/.vercel/**",
+      "**/.wrangler/**",
+      "**/build/**",
+      "**/coverage/**",
+      "**/dist/**",
+      "**/output/**",
+      "**/playwright-report/**",
+      "**/target/**",
+      "**/test-results/**",
+      "**/tmp/**"
+    ]
+  }
+}
