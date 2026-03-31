@@ -2157,6 +2157,10 @@ code {
   gap: 8px;
 }
 
+.cmd-controls-actions {
+  margin-bottom: 16px;
+}
+
 .cmd-primary-cta,
 .cmd-secondary-cta,
 .cmd-block-button {
@@ -2205,6 +2209,10 @@ code {
   color: rgba(229, 226, 227, 0.9);
   font-size: 0.82rem;
   overflow-wrap: anywhere;
+}
+
+.cmd-controls-feedback {
+  margin-bottom: 16px;
 }
 
 .cmd-feedback-error {

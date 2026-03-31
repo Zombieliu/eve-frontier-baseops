@@ -244,21 +244,21 @@ export async function discoverWalletCharacter(params: {
   walletAddress: string;
   worldPackageId: string;
 }): Promise<DiscoveredCharacter | null> {
-  const ownerCapType = `${params.worldPackageId}::access::OwnerCap<${params.worldPackageId}::character::Character>`;
-  const ownedObjects = await getOwnedObjectsByType(params.walletAddress, ownerCapType);
-  const ownerCapId = ownedObjects.data?.address?.objects?.nodes?.[0]?.address;
+  const profileType = `${params.worldPackageId}::character::PlayerProfile`;
+  const ownedProfiles = await getOwnedObjectsByType(params.walletAddress, profileType);
+  const playerProfileId = ownedProfiles.data?.address?.objects?.nodes?.[0]?.address;
 
-  if (!isNonEmpty(ownerCapId)) {
+  if (!isNonEmpty(playerProfileId)) {
     return null;
   }
 
-  const ownerCapObject = await getObjectWithJson(ownerCapId);
-  const ownerCapJson = parseJsonRecord(
-    ownerCapObject.data?.object?.asMoveObject?.contents?.json,
+  const playerProfileObject = await getObjectWithJson(playerProfileId);
+  const playerProfileJson = parseJsonRecord(
+    playerProfileObject.data?.object?.asMoveObject?.contents?.json,
   );
   const characterObjectId =
-    typeof ownerCapJson?.authorized_object_id === "string"
-      ? ownerCapJson.authorized_object_id
+    typeof playerProfileJson?.character_id === "string"
+      ? playerProfileJson.character_id
       : "";
 
   if (!isNonEmpty(characterObjectId)) {
@@ -274,6 +274,12 @@ export async function discoverWalletCharacter(params: {
     return null;
   }
 
+  const characterJson = parseJsonRecord(
+    characterObject.data?.object?.asMoveObject?.contents?.json,
+  );
+  const ownerCapId =
+    typeof characterJson?.owner_cap_id === "string" ? characterJson.owner_cap_id : "";
+
   return {
     characterObjectId,
     characterItemId: character.characterId,
@@ -286,12 +292,14 @@ export async function discoverWalletCharacter(params: {
 export async function getCharacterOwnerCapId(params: {
   client: SuiJsonRpcClient;
   worldPackageId: string;
+  worldCallPackageId?: string;
   characterId: string;
   senderAddress: string;
 }): Promise<string> {
+  const worldCallPackageId = params.worldCallPackageId?.trim() || params.worldPackageId;
   const tx = new Transaction();
   tx.moveCall({
-    target: `${params.worldPackageId}::character::owner_cap_id`,
+    target: `${worldCallPackageId}::character::owner_cap_id`,
     arguments: [tx.object(params.characterId)],
   });
 
@@ -310,6 +318,75 @@ export async function getCharacterOwnerCapId(params: {
   }
 
   return bcs.Address.parse(Uint8Array.from(bytes));
+}
+
+async function getAssemblyOwnerCapId(params: {
+  client: SuiJsonRpcClient;
+  objectId: string;
+  senderAddress: string;
+  target: string;
+}): Promise<string> {
+  const tx = new Transaction();
+  tx.moveCall({
+    target: params.target,
+    arguments: [tx.object(params.objectId)],
+  });
+
+  const result = await params.client.devInspectTransactionBlock({
+    sender: params.senderAddress,
+    transactionBlock: tx,
+  });
+
+  if (result.effects?.status?.status !== "success") {
+    throw new Error(`Failed to resolve OwnerCap via ${params.target}.`);
+  }
+
+  const bytes = result.results?.[0]?.returnValues?.[0]?.[0];
+  if (!bytes) {
+    throw new Error(`OwnerCap lookup returned no data for ${params.objectId}.`);
+  }
+
+  return bcs.Address.parse(Uint8Array.from(bytes));
+}
+
+export async function getGateOwnerCapId(params: {
+  client: SuiJsonRpcClient;
+  worldPackageId: string;
+  worldCallPackageId?: string;
+  gateId: string;
+  senderAddress: string;
+}): Promise<string> {
+  const worldCallPackageId = params.worldCallPackageId?.trim() || params.worldPackageId;
+  return getAssemblyOwnerCapId({
+    client: params.client,
+    objectId: params.gateId,
+    senderAddress: params.senderAddress,
+    target: `${worldCallPackageId}::gate::owner_cap_id`,
+  });
+}
+
+export async function getStorageUnitOwnerCapId(params: {
+  client: SuiJsonRpcClient;
+  worldPackageId: string;
+  worldCallPackageId?: string;
+  storageUnitId: string;
+  senderAddress: string;
+}): Promise<string> {
+  const worldCallPackageId = params.worldCallPackageId?.trim() || params.worldPackageId;
+  return getAssemblyOwnerCapId({
+    client: params.client,
+    objectId: params.storageUnitId,
+    senderAddress: params.senderAddress,
+    target: `${worldCallPackageId}::storage_unit::owner_cap_id`,
+  });
+}
+
+export function resolveWorldCallPackageId(worldPackageId: string): string {
+  const trimmed = worldPackageId.trim();
+  if (trimmed === "0xd12a70c74c1e759445d6f209b01d43d860e97fcf2ef72ccbbd00afd828043f75") {
+    return "0x07e6b810c2dff6df56ea7fbad9ff32f4d84cbee53e496267515887b712924bd1";
+  }
+  return trimmed;
 }
 
 export async function getOwnedJumpPermitId(params: {
@@ -457,6 +534,7 @@ export function buildIssueJumpPermitTransaction(params: {
 
 export function buildCollectCorpseBountyTransaction(params: {
   worldPackageId: string;
+  worldCallPackageId?: string;
   builderPackageId: string;
   extensionConfigId: string;
   sourceGateId: string;
@@ -469,9 +547,10 @@ export function buildCollectCorpseBountyTransaction(params: {
 }): Transaction {
   const tx = new Transaction();
   const characterType = `${params.worldPackageId}::character::Character`;
+  const worldCallPackageId = params.worldCallPackageId?.trim() || params.worldPackageId;
 
   const [ownerCap, returnReceipt] = tx.moveCall({
-    target: `${params.worldPackageId}::character::borrow_owner_cap`,
+    target: `${worldCallPackageId}::character::borrow_owner_cap`,
     typeArguments: [characterType],
     arguments: [tx.object(params.characterId), tx.object(params.characterOwnerCapId)],
   });
@@ -493,9 +572,78 @@ export function buildCollectCorpseBountyTransaction(params: {
   });
 
   tx.moveCall({
-    target: `${params.worldPackageId}::character::return_owner_cap`,
+    target: `${worldCallPackageId}::character::return_owner_cap`,
     typeArguments: [characterType],
     arguments: [tx.object(params.characterId), ownerCap, returnReceipt],
+  });
+
+  return tx;
+}
+
+export function buildAuthorizeLiveRouteTransaction(params: {
+  worldPackageId: string;
+  worldCallPackageId?: string;
+  builderPackageId: string;
+  characterId: string;
+  sourceGateId: string;
+  sourceGateOwnerCapId: string;
+  destinationGateId: string;
+  destinationGateOwnerCapId: string;
+  storageUnitId: string;
+  storageUnitOwnerCapId: string;
+}): Transaction {
+  const tx = new Transaction();
+  const worldCallPackageId = params.worldCallPackageId?.trim() || params.worldPackageId;
+  const gateType = `${params.worldPackageId}::gate::Gate`;
+  const storageType = `${params.worldPackageId}::storage_unit::StorageUnit`;
+  const authType = `${params.builderPackageId}::config::XAuth`;
+
+  const [sourceGateOwnerCap, sourceGateReceipt] = tx.moveCall({
+    target: `${worldCallPackageId}::character::borrow_owner_cap`,
+    typeArguments: [gateType],
+    arguments: [tx.object(params.characterId), tx.object(params.sourceGateOwnerCapId)],
+  });
+  tx.moveCall({
+    target: `${worldCallPackageId}::gate::authorize_extension`,
+    typeArguments: [authType],
+    arguments: [tx.object(params.sourceGateId), sourceGateOwnerCap],
+  });
+  tx.moveCall({
+    target: `${worldCallPackageId}::character::return_owner_cap`,
+    typeArguments: [gateType],
+    arguments: [tx.object(params.characterId), sourceGateOwnerCap, sourceGateReceipt],
+  });
+
+  const [destinationGateOwnerCap, destinationGateReceipt] = tx.moveCall({
+    target: `${worldCallPackageId}::character::borrow_owner_cap`,
+    typeArguments: [gateType],
+    arguments: [tx.object(params.characterId), tx.object(params.destinationGateOwnerCapId)],
+  });
+  tx.moveCall({
+    target: `${worldCallPackageId}::gate::authorize_extension`,
+    typeArguments: [authType],
+    arguments: [tx.object(params.destinationGateId), destinationGateOwnerCap],
+  });
+  tx.moveCall({
+    target: `${worldCallPackageId}::character::return_owner_cap`,
+    typeArguments: [gateType],
+    arguments: [tx.object(params.characterId), destinationGateOwnerCap, destinationGateReceipt],
+  });
+
+  const [storageOwnerCap, storageReceipt] = tx.moveCall({
+    target: `${worldCallPackageId}::character::borrow_owner_cap`,
+    typeArguments: [storageType],
+    arguments: [tx.object(params.characterId), tx.object(params.storageUnitOwnerCapId)],
+  });
+  tx.moveCall({
+    target: `${worldCallPackageId}::storage_unit::authorize_extension`,
+    typeArguments: [authType],
+    arguments: [tx.object(params.storageUnitId), storageOwnerCap],
+  });
+  tx.moveCall({
+    target: `${worldCallPackageId}::character::return_owner_cap`,
+    typeArguments: [storageType],
+    arguments: [tx.object(params.characterId), storageOwnerCap, storageReceipt],
   });
 
   return tx;

@@ -10,17 +10,21 @@ import {
 } from "@mysten/dapp-kit-react";
 import { useEffect, useState } from "react";
 import {
+  buildAuthorizeLiveRouteTransaction,
   buildCollectCorpseBountyTransaction,
   buildIssueJumpPermitTransaction,
   createRpcClient,
   discoverWalletCharacter,
   type DiscoveredCharacter,
   type EventFeedEntry,
+  getGateOwnerCapId,
   getDefaultRuntimeConfig,
   getObjectReadback,
   getOwnedJumpPermitId,
+  getStorageUnitOwnerCapId,
   getTransactionReadback,
   getCharacterOwnerCapId,
+  resolveWorldCallPackageId,
   resolveWorldObjectId,
   type BaseOpsRuntimeConfig,
 } from "./baseops";
@@ -31,7 +35,7 @@ import { formatTemplate, useI18n } from "./i18n";
 const STORAGE_KEY = "frontier-baseops-runtime-config:v4";
 
 const OFFICIAL_UTOPIA_WORLD_PACKAGE_ID =
-  "0x07e6b810c2dff6df56ea7fbad9ff32f4d84cbee53e496267515887b712924bd1";
+  "0xd12a70c74c1e759445d6f209b01d43d860e97fcf2ef72ccbbd00afd828043f75";
 
 const LOCALNET_DEMO_PROFILE: Partial<BaseOpsRuntimeConfig> = {
   tenant: "dev",
@@ -59,14 +63,14 @@ const UTOPIA_WORLD_PROFILE: Partial<BaseOpsRuntimeConfig> = {
   worldPackageId: OFFICIAL_UTOPIA_WORLD_PACKAGE_ID,
   builderPackageId: "0x34c884b88860af000965b80eebe74c52a6a64d79b44a70b77278d44e436aab56",
   extensionConfigId: "0xb395adba3e55fabcaaa7f200d068224e01f43b59732c8a69b7f6d6c8187942e4",
-  sourceGateObjectId: "",
-  sourceGateItemId: "",
-  destinationGateObjectId: "",
-  destinationGateItemId: "",
-  storageUnitObjectId: "",
-  storageUnitItemId: "",
-  characterObjectId: "",
-  characterItemId: "",
+  sourceGateObjectId: "0x81a1818311b41511c66a91146e5cac404748918abde3ab6ccca9bc3398a62940",
+  sourceGateItemId: "1000000023120",
+  destinationGateObjectId: "0x84cdf964babb640b1f62da75d71c392c57563cc51b69b63a59f6c8f3b42f0884",
+  destinationGateItemId: "1000000023122",
+  storageUnitObjectId: "0x69d370ef18f0c6dd4dc70032d6912dc49d488668dda46448624007e225f7b3d5",
+  storageUnitItemId: "1000000023116",
+  characterObjectId: "0xc7bee895a266a87cf32d4db6c2c5567dd5c46192d2ba6b51a2bc23c139db7aa4",
+  characterItemId: "2112000086",
   corpseTypeId: "446",
   corpseQuantity: "1",
   recentDigests: "",
@@ -191,6 +195,11 @@ export function BaseOpsPanels() {
   const [storageState, setStorageState] = useState<OperationState>({
     pending: false,
     message: m.console.statusMessages.waiting,
+    status: "idle",
+  });
+  const [authState, setAuthState] = useState<OperationState>({
+    pending: false,
+    message: "Waiting to authorize the live route.",
     status: "idle",
   });
   const [showAdvancedControls, setShowAdvancedControls] = useState(false);
@@ -502,16 +511,19 @@ export function BaseOpsPanels() {
 
     try {
       const targets = await resolveTargets(true);
-        const client = createRpcClient(activeNetwork, config.rpcUrl);
+      const client = createRpcClient(activeNetwork, config.rpcUrl);
+      const worldCallPackageId = resolveWorldCallPackageId(config.worldPackageId.trim());
       const characterOwnerCapId = await getCharacterOwnerCapId({
         client,
         worldPackageId: config.worldPackageId.trim(),
+        worldCallPackageId,
         characterId: targets.characterId,
         senderAddress: currentAccount.address,
       });
 
       const transaction = buildCollectCorpseBountyTransaction({
         worldPackageId: config.worldPackageId.trim(),
+        worldCallPackageId,
         builderPackageId: config.builderPackageId.trim(),
         extensionConfigId: config.extensionConfigId.trim(),
         sourceGateId: targets.sourceGateId,
@@ -539,6 +551,95 @@ export function BaseOpsPanels() {
       setStorageState({
         pending: false,
         message: error instanceof Error ? error.message : m.console.statusMessages.storageFailed,
+        status: "error",
+      });
+    }
+  }
+
+  async function handleAuthoriseLiveRoute() {
+    if (!currentAccount?.address) {
+      setAuthState({
+        pending: false,
+        message: "Connect a wallet before authorizing the live route.",
+        status: "error",
+      });
+      return;
+    }
+
+    if (!config.worldPackageId.trim() || !config.builderPackageId.trim() || !config.extensionConfigId.trim()) {
+      setAuthState({
+        pending: false,
+        message: "World package, builder package, and extension config are required before route authorization.",
+        status: "error",
+      });
+      return;
+    }
+
+    setAuthState({
+      pending: true,
+      message: "Borrowing gate and storage OwnerCaps for live route authorization...",
+      status: "idle",
+    });
+
+    try {
+      const targets = await resolveTargets(true);
+      const client = createRpcClient(activeNetwork, config.rpcUrl);
+      const worldPackageId = config.worldPackageId.trim();
+      const worldCallPackageId = resolveWorldCallPackageId(worldPackageId);
+
+      const [sourceGateOwnerCapId, destinationGateOwnerCapId, storageUnitOwnerCapId] = await Promise.all([
+        getGateOwnerCapId({
+          client,
+          worldPackageId,
+          worldCallPackageId,
+          gateId: targets.sourceGateId,
+          senderAddress: currentAccount.address,
+        }),
+        getGateOwnerCapId({
+          client,
+          worldPackageId,
+          worldCallPackageId,
+          gateId: targets.destinationGateId,
+          senderAddress: currentAccount.address,
+        }),
+        getStorageUnitOwnerCapId({
+          client,
+          worldPackageId,
+          worldCallPackageId,
+          storageUnitId: targets.storageUnitId ?? "",
+          senderAddress: currentAccount.address,
+        }),
+      ]);
+
+      const transaction = buildAuthorizeLiveRouteTransaction({
+        worldPackageId,
+        worldCallPackageId,
+        builderPackageId: config.builderPackageId.trim(),
+        characterId: targets.characterId,
+        sourceGateId: targets.sourceGateId,
+        sourceGateOwnerCapId,
+        destinationGateId: targets.destinationGateId,
+        destinationGateOwnerCapId,
+        storageUnitId: targets.storageUnitId ?? "",
+        storageUnitOwnerCapId,
+      });
+
+      const result = await dAppKit.signAndExecuteTransaction({ transaction });
+      const digest = result.$kind === "Transaction"
+        ? result.Transaction.digest
+        : result.FailedTransaction.digest;
+
+      await appendReadbackEntries(digest, "system");
+      await refetch();
+      setAuthState({
+        pending: false,
+        message: `Live route authorized on-chain: ${digest}`,
+        status: "success",
+      });
+    } catch (error) {
+      setAuthState({
+        pending: false,
+        message: error instanceof Error ? error.message : "Live route authorization failed.",
         status: "error",
       });
     }
@@ -935,8 +1036,22 @@ export function BaseOpsPanels() {
       <section className="cmd-controls-card" id="operator-controls">
         <div className="cmd-log-header">
           <h3>{m.console.controls.title}</h3>
-          <button className="cmd-link-button" onClick={() => void refetch()} type="button">{m.console.controls.refreshAssembly}</button>
         </div>
+
+        <div className="cmd-action-buttons cmd-controls-actions">
+          <button className="cmd-primary-cta" disabled={authState.pending || !storageReady} onClick={() => void handleAuthoriseLiveRoute()} type="button">
+            {authState.pending ? "AUTHORIZING LIVE ROUTE" : "AUTHORISE LIVE ROUTE"}
+          </button>
+          <button className="cmd-secondary-cta" onClick={() => void refetch()} type="button">
+            {m.console.controls.refreshAssembly}
+          </button>
+        </div>
+
+        {authState.status !== "idle" ? (
+          <div className={authState.status === "error" ? "cmd-feedback cmd-feedback-error cmd-controls-feedback" : "cmd-feedback cmd-controls-feedback"}>
+            {authState.message}
+          </div>
+        ) : null}
 
         <details className="cmd-details" onToggle={(event) => setShowAdvancedControls(event.currentTarget.open)} open={showAdvancedControls}>
           <summary>
